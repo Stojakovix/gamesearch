@@ -1,16 +1,28 @@
-import React, { useState, useEffect } from 'react';
-import GameCard from './GameCard';
+import React, { useState, useEffect } from "react";
+import GameCard from "./GameCard";
 
-export default function GameList() {
-    return (
-        <div className='gameListContainer'>
-            <li className='gameList'>
-                <ul>
-                    <GameCard/>
-                </ul>
-            </li>
-        </div>
-    )
-
-} 
+const GameList = ({ games }) => {
+  try {
+    console.log("games: ", games);
     
+    return (
+      <div className="gameListContainer">
+        <div className="gameList"> 
+        {games.map((game) => (
+        
+        <GameCard
+          key={game.id}
+          title={game.name}
+          description={game.released}
+        />
+      ))}
+        </div>
+        
+      </div>
+    );
+  } catch (error) {
+    console.log("error in gameList: ", error);
+  }
+};
+
+export default GameList;

@@ -1,44 +1,49 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import GameList from './GameList';
-import SearchBar from './SearchBar';
-import './App.css';
-import fetchGames from './Conn';
-import { toHaveErrorMessage } from '@testing-library/jest-dom/matchers';
+import React, { useState, useEffect } from "react";
+import fetchGames from "./Conn";
+import axios from "axios";
+import GameList from "./GameList";
+import SearchBar from "./SearchBar";
+import "./App.css";
 
- 
 function App() {
+  const [games, setGames] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
-    const [games, setGames] = useState([]);
-    const [searchTerm, setSearchTerm] = useState('');
+  useEffect(() => {
+    fetchGames("", 20).then((initialData) => {
+      console.log("logging initial data ", initialData);
+      if (initialData && Array.isArray(initialData)) {
+        setGames(initialData);
+        console.log("executed if");
+//        console.log("gametype: ", typeof initialData);
+      } else {
+        console.log("games is not Array, games is: ", typeof initialData);
+      }
+    });
+  }, []);
 
-    useEffect(() => {
-        fetchGames('',20).then((initialData) =>{
-            setGames(initialData.results);
-        });
-        
-    }, []);
+  const handleSearch = async (term) => {
+    try {
+      setSearchTerm(term);
+      console.log("search term in app.js: ", term);
+      const searchData = await fetchGames(term);
 
-    const handleSearch = async (term) => {
-        setSearchTerm(term);
-        // Fetch data with the specified search term
-        const searchData = await fetchGames(term);
-        
-        // Check if searchData is defined and has a 'results' property
-        if (searchData && searchData.results) {
-          setGames(searchData.results);
-        } else {
-          // Handle the case where searchData is undefined or does not have 'results'
-          console.error("Invalid or missing data in API response:", searchData);
-        }
-      };
-    return (
-        <div>
-            <SearchBar setSearchTerm={setSearchTerm} onSearch={handleSearch} />
-            <GameList games={games} />
-        </div>
-    );
-};
+      if (searchData && Array.isArray(searchData)) {
+        setGames(searchData);
+      } else {
+        console.error("Invalid or missing data in API response:", searchData);
+      }
+    } catch (error) {
+      console.error("Error in fetching data in app.js: ", error);
+    }
+  };
 
+  return (
+    <div>
+      <SearchBar onSearch={handleSearch} />
+      <GameList games={games} />
+    </div>
+  );
+}
 
 export default App;

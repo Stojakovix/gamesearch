@@ -1,23 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
+export default function SearchBar( {onSearch}) {
+  const [inputValue, setInputValue] = useState("");
 
+  const handleInputChange = (e) => {
+    setInputValue(e.target.value);
+  };
 
-export default function SearchBar() {
+  const handleSearch = (e) => {
+    console.log("Search term is: ", inputValue);
+    e.preventDefault();
+    if(onSearch) {
+      onSearch(inputValue);
+    } else {
+      console.error("onSearch prop is not provided");
+    }
+  };
 
-    const [inputValue, setInputValue] = useState('');
-
-    const handleInputChange = (e) => {
-        setInputValue(e.target.value);
-    };
-    
-    const handleSearch = () => {
-        console.log('Search term is: ', inputValue)
-    };
-
-
-    return(
-        <div className="searchBar">
+  return (
+    <form className="searchBar" onSubmit={handleSearch}>
       <h1 className="searchHeader">GameSearch</h1>
+
       <div className="searchInput">
         <input
           type="text"
@@ -25,8 +28,8 @@ export default function SearchBar() {
           value={inputValue}
           onChange={handleInputChange}
         />
-        <button onClick={handleSearch}>Search</button>
+        <button type="submit" aria-label="Search">Search</button>
       </div>
-    </div>
-    );
+    </form>
+  );
 }
