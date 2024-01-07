@@ -1,20 +1,21 @@
 import React, { useState, useEffect } from "react";
+import _, { isBoolean } from 'lodash';
 
 export default function SearchBar( {onSearch}) {
   const [inputValue, setInputValue] = useState("");
 
-  const handleInputChange = (e) => {
-    setInputValue(e.target.value);
-  };
 
-  const handleSearch = (e) => {
-    console.log("Search term is: ", inputValue);
-    e.preventDefault();
+
+  const handleSearch = _.debounce((inputValue) => {
     if(onSearch) {
       onSearch(inputValue);
-    } else {
-      console.error("onSearch prop is not provided");
     }
+  }, 1000)
+
+  const handleInputChange = (e) => {
+    setInputValue(e.target.value);
+    handleSearch(e.target.value);
+    
   };
 
   return (
