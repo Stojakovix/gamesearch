@@ -1,15 +1,22 @@
 import React, { useState, useEffect } from "react";
-import _, { isBoolean } from 'lodash';
+import useDebounce from './useDebounce';
 
 export default function SearchBar( {onSearch}) {
   const [inputValue, setInputValue] = useState("");
 
+  // useEffect(() => {
+  //   const sendData = setTimeout((inputValue) => {
+  //     if(onSearch) {
+  //       onSearch(inputValue);
+  //     }
+  //   }, 1000)
+  //   return() => clearTimeout(sendData)
+  // });
 
-
-  const handleSearch = _.debounce((inputValue) => {
+  const handleSearch = useDebounce((inputValue) => {
     if(onSearch) {
       onSearch(inputValue);
-    }
+    };
   }, 1000)
 
   const handleInputChange = (e) => {

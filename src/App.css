@@ -35,12 +35,17 @@ body{
 
 .gameCard {
   text-align: start;
+  width: fit-content;
+  height: 150px;
   padding-left: 10px;
-  border: 10px;
+  border: 1px solid;
   border-color: #282c34;
+  border-radius: 5%;
+  box-sizing: border-box;
 }
 
 .gameListContainer {
+  padding-top: 20px;
   overflow-x: auto;
   white-space: nowrap;
 }

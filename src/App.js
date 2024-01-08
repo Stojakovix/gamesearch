@@ -4,6 +4,7 @@ import axios from "axios";
 import GameList from "./GameList";
 import SearchBar from "./SearchBar";
 import "./App.css";
+import useDebounce from "./useDebounce"
 
 function App() {
   const [games, setGames] = useState([]);
@@ -15,7 +16,6 @@ function App() {
       if (initialData && Array.isArray(initialData)) {
         setGames(initialData);
         console.log("executed if");
-//        console.log("gametype: ", typeof initialData);
       } else {
         console.log("games is not Array, games is: ", typeof initialData);
       }
@@ -37,6 +37,8 @@ function App() {
       console.error("Error in fetching data in app.js: ", error);
     }
   };
+
+
 
   return (
     <div>

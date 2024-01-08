@@ -7,7 +7,7 @@ const GameCard = ({title, description}) => {
     <Card className="gameCard" style={{ width: "18rem" }}>
       <Card.Body>
         <Card.Title>{title}</Card.Title>
-        <Card.Text>{description}</Card.Text>
+        <Card.Text >{description}</Card.Text>
       </Card.Body>
     </Card>
   );
